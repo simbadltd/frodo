@@ -1,0 +1,17 @@
+@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<Frodo.Core.User>
+@{
+    Layout = "WebApp/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Home Page";
+}
+
+<table>
+    <tr>
+        <td>Id:</td>
+        <td>@Model.Id</td>
+    </tr>
+    <tr>
+        <td>Login:</td>
+        <td>@Model.Login</td>
+    </tr>
+
+</table>

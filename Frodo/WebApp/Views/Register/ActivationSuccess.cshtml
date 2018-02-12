@@ -1,0 +1,11 @@
+@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<Frodo.ActivateUserFeature.ActivationResult>
+@{
+    Layout = "WebApp/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Activation Successful";
+}
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        User "@Model.UserName" activated successfully!
+    </div>
+</div>

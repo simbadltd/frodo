@@ -1,0 +1,220 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{022A71B3-A8AA-4917-A0B9-48BBD56F8154}</ProjectGuid>
+    <ProjectTypeGuids>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Frodo</RootNamespace>
+    <AssemblyName>Frodo</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Autofac, Version=4.6.2.0, Culture=neutral, PublicKeyToken=17863af14b0044da">
+      <HintPath>..\packages\Autofac.4.6.2\lib\net45\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper, Version=6.2.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005">
+      <HintPath>..\packages\AutoMapper.6.2.1\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentValidation, Version=3.4.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\FluentValidation.3.4.0.0\lib\Net40\FluentValidation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Build.Framework" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Nancy, Version=1.4.4.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\Nancy.1.4.4\lib\net40\Nancy.dll</HintPath>
+    </Reference>
+    <Reference Include="Nancy.Authentication.Forms, Version=1.4.1.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\Nancy.Authentication.Forms.1.4.1\lib\net40\Nancy.Authentication.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="Nancy.Hosting.Self, Version=1.4.1.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\Nancy.Hosting.Self.1.4.1\lib\net40\Nancy.Hosting.Self.dll</HintPath>
+    </Reference>
+    <Reference Include="Nancy.Session.InProc, Version=1.4.3.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\Nancy.Session.InProc.1.4.3\lib\net40\Nancy.Session.InProc.dll</HintPath>
+    </Reference>
+    <Reference Include="Nancy.Validation.FluentValidation, Version=1.4.1.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\Nancy.Validation.FluentValidation.1.4.1\lib\net40\Nancy.Validation.FluentValidation.dll</HintPath>
+    </Reference>
+    <Reference Include="Nancy.ViewEngines.Razor, Version=1.4.2.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\Nancy.Viewengines.Razor.1.4.3\lib\net40\Nancy.ViewEngines.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="NodaTime, Version=2.2.3.0, Culture=neutral, PublicKeyToken=4226afe0d9b296d1">
+      <HintPath>..\packages\NodaTime.2.2.3\lib\net45\NodaTime.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.2.0.30506.0\lib\net40\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Topshelf, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b800c4cfcdeea87b">
+      <HintPath>..\packages\Topshelf.4.0.3\lib\net452\Topshelf.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ActivateUserFeature.cs" />
+    <Compile Include="AppIocContainerModule.cs" />
+    <Compile Include="Composition\AutofacIocContainerAdapter.cs" />
+    <Compile Include="Composition\IocContainer.cs" />
+    <Compile Include="Events\NewUserCreatedEventHandler.cs" />
+    <Compile Include="Events\DomainEventDispatcher.cs" />
+    <Compile Include="ExportFeature.cs" />
+    <Compile Include="IActivateUserFeature.cs" />
+    <Compile Include="IExportFeature.cs" />
+    <Compile Include="IImportFeature.cs" />
+    <Compile Include="IMembershipFeature.cs" />
+    <Compile Include="ImportFeature.cs" />
+    <Compile Include="MembershipFeature.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WebApp\Authentication\AuthenticatedUser.cs" />
+    <Compile Include="WebApp\Authentication\AuthenticationService.cs" />
+    <Compile Include="WebApp\Authentication\IAuthenticationService.cs" />
+    <Compile Include="WebApp\Authentication\IPasswordCheckService.cs" />
+    <Compile Include="WebApp\Authentication\LogoutResult.cs" />
+    <Compile Include="WebApp\Authentication\PasswordCheckService.cs" />
+    <Compile Include="WebApp\Bootstrapper.cs" />
+    <Compile Include="WebApp\IocContainerNancyBootstrapper.cs" />
+    <Compile Include="WebApp\Modules\HomeModule.cs" />
+    <Compile Include="WebApp\Modules\Login\LoginAttempt.cs" />
+    <Compile Include="WebApp\Modules\Login\LoginAttemptValidator.cs" />
+    <Compile Include="WebApp\Modules\Login\LoginModule.cs" />
+    <Compile Include="WebApp\Modules\Module.cs" />
+    <Compile Include="WebApp\Modules\PrivateOffice\PrivateOfficeModule.cs" />
+    <Compile Include="WebApp\Modules\Register\NewUser.cs" />
+    <Compile Include="WebApp\Modules\Register\NewUserValidator.cs" />
+    <Compile Include="WebApp\Modules\Register\RegisterModule.cs" />
+    <Compile Include="WebApp\UserMapper.cs" />
+    <Compile Include="WindowsService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Frodo.Common\Frodo.Common.csproj">
+      <Project>{09690DC6-3CDD-4587-8A09-7CA630DC1B54}</Project>
+      <Name>Frodo.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Frodo.Core\Frodo.Core.csproj">
+      <Project>{955E9ED9-B161-4066-B43C-2518EBD36DA3}</Project>
+      <Name>Frodo.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Frodo.Infrastructure\Frodo.Infrastructure.csproj">
+      <Project>{838AFD01-661D-4484-AEB3-A2F58B9ADB5C}</Project>
+      <Name>Frodo.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Frodo.Integration\Frodo.Integration.csproj">
+      <Project>{9B0576F4-DEB5-4679-9E28-E49FF52D21E5}</Project>
+      <Name>Frodo.Integration</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Frodo.Persistence\Frodo.Persistence.csproj">
+      <Project>{1049726b-2839-4742-90b3-d2e3cafcb76b}</Project>
+      <Name>Frodo.Persistence</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Content\bootstrap-theme.css" />
+    <None Include="Content\bootstrap-theme.css.map" />
+    <None Include="Content\bootstrap-theme.min.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\bootstrap-theme.min.css.map" />
+    <None Include="Content\bootstrap.css" />
+    <None Include="Content\bootstrap.css.map" />
+    <None Include="Content\bootstrap.min.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\bootstrap.min.css.map" />
+    <None Include="fonts\glyphicons-halflings-regular.eot">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="fonts\glyphicons-halflings-regular.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="fonts\glyphicons-halflings-regular.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="fonts\glyphicons-halflings-regular.woff">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="fonts\glyphicons-halflings-regular.woff2">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Scripts\bootstrap.js" />
+    <None Include="Scripts\bootstrap.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Scripts\jquery-1.9.1-vsdoc.js" />
+    <None Include="Scripts\jquery-1.9.1.js" />
+    <None Include="Scripts\jquery-1.9.1.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Scripts\jquery-1.9.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="NLog.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="WebApp\Views\Home\index.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="WebApp\Views\Login\Index.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="WebApp\Views\PrivateOffice\index.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="WebApp\Views\Register\ActivationSuccess.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="WebApp\Views\Shared\_Layout.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="WebApp\Views\Register\Index.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <PropertyGroup>
+    <PostBuildEvent>
+      xcopy "$(SolutionDir)Frodo.Persistence\bin\$(Configuration)\System.Data.*.dll" "$(TargetDir)" /Y /I /E
+      xcopy "$(SolutionDir)Frodo.Persistence\bin\$(Configuration)\x86\*.dll" "$(TargetDir)x86\" /Y /I /E
+      xcopy "$(SolutionDir)Frodo.Persistence\bin\$(Configuration)\x64\*.dll" "$(TargetDir)x64\" /Y /I /E
+    </PostBuildEvent>
+  </PropertyGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\Nancy.Viewengines.Razor.1.4.3\build\Nancy.ViewEngines.Razor.targets" Condition="Exists('..\packages\Nancy.Viewengines.Razor.1.4.3\build\Nancy.ViewEngines.Razor.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

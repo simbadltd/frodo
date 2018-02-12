@@ -1,0 +1,34 @@
+@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<Frodo.WebApp.Modules.Register.NewUser>
+@{
+    Layout = "WebApp/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Register New User";
+}
+
+				<div class="col-md-offset-3 col-md-6">
+					<form class="form-horizontal" method="post" action="~/Login">
+					
+						<div class="form-group">
+							<label for="login" class="col-sm-2 control-label">Login</label>
+							<div class="col-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="glyphicon glyphicon-user" aria-hidden="true"></i></span>
+									<input type="text" class="form-control" name="login" id="login" placeholder="Enter your Name" />
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="password" class="col-sm-2 control-label">Password</label>
+							<div class="col-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="glyphicon glyphicon-lock" aria-hidden="true"></i></span>
+									<input type="password" class="form-control" name="password" id="password" placeholder="Enter your Password" />
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group ">
+							<button type="submit" class="btn btn-primary btn-block">Login</button>
+						</div>
+					</form>
+				</div>

@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.0.0
+MinimumVisualStudioVersion = 10.0.0.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frodo", "Frodo\Frodo.csproj", "{022A71B3-A8AA-4917-A0B9-48BBD56F8154}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frodo.Core", "Frodo.Core\Frodo.Core.csproj", "{955E9ED9-B161-4066-B43C-2518EBD36DA3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frodo.Integration", "Frodo.Integration\Frodo.Integration.csproj", "{9B0576F4-DEB5-4679-9E28-E49FF52D21E5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frodo.Persistence", "Frodo.Persistence\Frodo.Persistence.csproj", "{1049726B-2839-4742-90B3-D2E3CAFCB76B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frodo.Infrastructure", "Frodo.Infrastructure\Frodo.Infrastructure.csproj", "{838AFD01-661D-4484-AEB3-A2F58B9ADB5C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frodo.Common", "Frodo.Common\Frodo.Common.csproj", "{09690DC6-3CDD-4587-8A09-7CA630DC1B54}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{022A71B3-A8AA-4917-A0B9-48BBD56F8154}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{022A71B3-A8AA-4917-A0B9-48BBD56F8154}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{022A71B3-A8AA-4917-A0B9-48BBD56F8154}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{022A71B3-A8AA-4917-A0B9-48BBD56F8154}.Release|Any CPU.Build.0 = Release|Any CPU
+		{955E9ED9-B161-4066-B43C-2518EBD36DA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{955E9ED9-B161-4066-B43C-2518EBD36DA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{955E9ED9-B161-4066-B43C-2518EBD36DA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{955E9ED9-B161-4066-B43C-2518EBD36DA3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B0576F4-DEB5-4679-9E28-E49FF52D21E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B0576F4-DEB5-4679-9E28-E49FF52D21E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B0576F4-DEB5-4679-9E28-E49FF52D21E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B0576F4-DEB5-4679-9E28-E49FF52D21E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1049726B-2839-4742-90B3-D2E3CAFCB76B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1049726B-2839-4742-90B3-D2E3CAFCB76B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1049726B-2839-4742-90B3-D2E3CAFCB76B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1049726B-2839-4742-90B3-D2E3CAFCB76B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{838AFD01-661D-4484-AEB3-A2F58B9ADB5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{838AFD01-661D-4484-AEB3-A2F58B9ADB5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{838AFD01-661D-4484-AEB3-A2F58B9ADB5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{838AFD01-661D-4484-AEB3-A2F58B9ADB5C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09690DC6-3CDD-4587-8A09-7CA630DC1B54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09690DC6-3CDD-4587-8A09-7CA630DC1B54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09690DC6-3CDD-4587-8A09-7CA630DC1B54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09690DC6-3CDD-4587-8A09-7CA630DC1B54}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

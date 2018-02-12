@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{838AFD01-661D-4484-AEB3-A2F58B9ADB5C}</ProjectGuid>
+    <ProjectTypeGuids>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Frodo.Infrastructure</RootNamespace>
+    <AssemblyName>Frodo.Infrastructure</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="FluentEmail.Core, Version=2.1.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\FluentEmail.Core.2.1.0\lib\net451\FluentEmail.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentEmail.Smtp, Version=2.0.4.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\FluentEmail.Smtp.2.0.4\lib\net451\FluentEmail.Smtp.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c">
+      <HintPath>..\packages\NLog.4.4.12\lib\net45\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.0.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Configuration\EmailSettings.cs" />
+    <Compile Include="Configuration\IEmailSettings.cs" />
+    <Compile Include="Configuration\ISettings.cs" />
+    <Compile Include="Configuration\ISettingsProvider.cs" />
+    <Compile Include="Configuration\Settings.cs" />
+    <Compile Include="Configuration\SettingsProvider.cs" />
+    <Compile Include="Email\EmailSendService.cs" />
+    <Compile Include="Email\IEmailSendService.cs" />
+    <Compile Include="InfrastructureIocContainerModule.cs" />
+    <Compile Include="Ioc\IIocContainer.cs" />
+    <Compile Include="Ioc\IIocContainerConfigurationModule.cs" />
+    <Compile Include="Ioc\InstanceRegistration.cs" />
+    <Compile Include="Ioc\IocContainerConfigurationModule.cs" />
+    <Compile Include="Ioc\IocContainerConfigurationModuleProvider.cs" />
+    <Compile Include="Ioc\Lifetime.cs" />
+    <Compile Include="Ioc\TypeRegistration.cs" />
+    <Compile Include="Json\IJsonSerializer.cs" />
+    <Compile Include="Json\ISerializer.cs" />
+    <Compile Include="Json\JsonSerializer.cs" />
+    <Compile Include="Logging\ILogger.cs" />
+    <Compile Include="Logging\ILogManager.cs" />
+    <Compile Include="Logging\NLogLogger.cs" />
+    <Compile Include="Logging\NLogManager.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Frodo.Common\Frodo.Common.csproj">
+      <Project>{09690DC6-3CDD-4587-8A09-7CA630DC1B54}</Project>
+      <Name>Frodo.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
