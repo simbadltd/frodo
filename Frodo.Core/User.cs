@@ -23,8 +23,6 @@ namespace Frodo.Core
         
         public string ActivationKey { get; set; }        
 
-        public List<string> TaskPatterns { get; set; }
-
         public Dictionary<string, string> TaskIdMap { get; set; }
 
         public Dictionary<string, Activity> ActivityMap { get; set; }

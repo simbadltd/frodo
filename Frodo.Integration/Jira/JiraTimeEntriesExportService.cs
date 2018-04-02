@@ -32,14 +32,7 @@ namespace Frodo.Integration.Jira
         {
             var worklog = new TempoWorklog
             {
-                worklogAttributes = new List<TempoWorklogAttribute>
-                {
-                    new TempoWorklogAttribute
-                    {
-                        key = "_Activity_",
-                        value = TempoActivity(timeEntry.Activity),
-                    }
-                },
+                worklogAttributes = new List<TempoWorklogAttribute>(),
 
                 issue = new TempoIssue
                 {
@@ -55,6 +48,29 @@ namespace Frodo.Integration.Jira
                 dateStarted = ToIso8601String(timeEntry.Start),
                 timeSpentSeconds = (int) Math.Round(timeEntry.Duration.TotalSeconds, MidpointRounding.AwayFromZero),
             };
+
+            if (timeEntry.Activity.ToString().StartsWith("PM_"))
+            {
+                worklog.worklogAttributes.Add(new TempoWorklogAttribute
+                {
+                    key = "_Activity_",
+                    value = "PM",
+                });
+
+                worklog.worklogAttributes.Add(new TempoWorklogAttribute
+                {
+                    key = "_PMActivity_",
+                    value = TempoActivity(timeEntry.Activity),
+                });
+            }
+            else
+            {
+                worklog.worklogAttributes.Add(new TempoWorklogAttribute
+                {
+                    key = "_Activity_",
+                    value = TempoActivity(timeEntry.Activity),
+                });
+            }
 
             return worklog;
         }
@@ -89,6 +105,23 @@ namespace Frodo.Integration.Jira
                     return "Code%20Review";
                 case Activity.Other:
                     return "Other";
+
+                // PM
+                case Activity.PM_ClosingRetrospective:
+                    return "Closing.%20Retrospective.";
+                case Activity.PM_Initiation_ProjectPlanning:
+                    return "Initiation.%20Project%20planning.";
+                case Activity.PM_Initiation_WorkWithRequirements:
+                    return "Initiation.%20Work%20with%20requirements.";
+                case Activity.PM_Monitoring_Communications:
+                    return "Monitoring.%20Communications.";
+                case Activity.PM_Monitoring_DailyMeeting:
+                    return "Monitoring.%20Daily%20meeting.";
+                case Activity.PM_Monitoring_StatusUpdate:
+                    return "Monitoring.%20Status%20update.";
+                case Activity.PM_Unexpected_ProjectReplanning:
+                    return "Unexpected.%20Project%20RE-planning.";
+
                 default:
                     throw new ArgumentOutOfRangeException(nameof(activity), activity, null);
             }

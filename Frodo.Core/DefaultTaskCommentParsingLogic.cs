@@ -15,67 +15,63 @@ namespace Frodo.Core
 
         private const char TaskInformationDelimiter = '=';
 
+        private static readonly Regex[] Patterns =
+        {
+            new Regex("^(?<task>\\S*)\\/(?<activity>\\S*)\\=(?<time>\\S*) (?<comment>.*)", RegexOptions.IgnoreCase),
+            new Regex("^(?<task>\\S*)\\/(?<activity>\\S*) (?<comment>.*)", RegexOptions.IgnoreCase),
+            new Regex("^(?<task>\\S*)\\=(?<time>\\S*) (?<comment>.*)", RegexOptions.IgnoreCase),
+            new Regex("^(?<task>\\S*)\\/(?<activity>\\S*)\\=(?<time>\\S*)", RegexOptions.IgnoreCase),
+            new Regex("^(?<task>\\S*)\\/(?<activity>\\S*)", RegexOptions.IgnoreCase),
+            new Regex("^(?<task>\\S*)\\=(?<time>\\S*)", RegexOptions.IgnoreCase),
+            new Regex("^(?<task>\\S*) (?<comment>.*)", RegexOptions.IgnoreCase),
+            new Regex("^(?<task>\\S*)", RegexOptions.IgnoreCase),
+        };
+
         public ICollection<CommentExtractionResult> Extract(User user, string input)
         {
             var result = new List<CommentExtractionResult>();
-            if (user.TaskPatterns == null)
-            {
-                return result;
-            }
+            var sanitizedInput = input.Trim();
+            var rawTasks = sanitizedInput.Split(MultipleTasksDelimiter);
 
-            var match = FindFirstSuitablePattern(user, input);
-            var isMatchNotFound = match == null;
-            if (isMatchNotFound)
+            foreach (var rawTask in rawTasks)
             {
-                return result;
-            }
+                var match = FindFirstSuitablePattern(rawTask);
+                var isMatchNotFound = match == null;
+                if (isMatchNotFound) continue;
 
-            var activity = MapActivity(user, match.Groups["activity"].Value);
-            var content = match.Groups["content"].Value;
-            var taskIds = match.Groups["task"].Value.Split(MultipleTasksDelimiter);
+                var taskId = match.Groups["task"].Value;
+                var activity = MapActivity(user, match.Groups["activity"].Value);
+                var time = match.Groups["time"].Value;
+                var comment = match.Groups["comment"].Value;
 
-            foreach (var rawTaskId in taskIds)
-            {
-                var entry = ParseComment(rawTaskId, activity, content);
+                if (string.IsNullOrWhiteSpace(taskId))
+                {
+                    throw new InvalidOperationException("TaskId cannot be empty.");
+                }
+
+                var redefinedTime = ParseTaskTime(time);
+
+                var entry = new CommentExtractionResult
+                {
+                    TaskId = taskId,
+                    Activity = activity,
+                    Comment = comment,
+                    RedefinedTime = redefinedTime
+                };
+
                 result.Add(entry);
             }
 
             return result;
         }
 
-        private static CommentExtractionResult ParseComment(string rawTaskId, Activity activity, string content)
+        private static Match FindFirstSuitablePattern(string input)
         {
-            if (string.IsNullOrWhiteSpace(rawTaskId))
+            foreach (var regex in Patterns)
             {
-                throw new InvalidOperationException("TaskId cannot be empty.");
-            }
+                if (regex.IsMatch(input) == false) continue;
 
-            var taskInformationParts = rawTaskId.Split(TaskInformationDelimiter);
-
-            Debug.Assert(taskInformationParts.Length > 0);
-            var taskId = taskInformationParts[0];
-            var redefinedTime = taskInformationParts.Length > 1 ? ParseTaskTime(taskInformationParts[1]) : null;
-
-            var entry = new CommentExtractionResult
-            {
-                TaskId = taskId,
-                Activity = activity,
-                Comment = content,
-                RedefinedTime = redefinedTime
-            };
-            return entry;
-        }
-
-        private static Match FindFirstSuitablePattern(User user, string input)
-        {
-            var sanitizedInput = input.Trim();
-
-            foreach (var taskPattern in user.TaskPatterns)
-            {
-                var regex = new Regex(taskPattern, RegexOptions.IgnoreCase);
-                if (regex.IsMatch(sanitizedInput) == false) continue;
-
-                return regex.Match(sanitizedInput);
+                return regex.Match(input);
             }
 
             return null;
@@ -83,6 +79,11 @@ namespace Frodo.Core
 
         private static TaskTime ParseTaskTime(string raw)
         {
+            if (string.IsNullOrWhiteSpace(raw))
+            {
+                return null;
+            }
+
             var sanitizedRaw = raw.Replace(" ", string.Empty).ToLowerInvariant();
 
             if (sanitizedRaw.EndsWith("%"))

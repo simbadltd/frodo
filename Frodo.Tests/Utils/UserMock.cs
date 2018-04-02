@@ -21,14 +21,6 @@ namespace Frodo.Tests.Utils
 
         public static User Mock(this User user)
         {
-            user.TaskPatterns = new List<string>
-            {
-                "^(?<task>\\S*)\\/(?<activity>\\S*) (?<content>.*)",
-                "^(?<task>\\S*)(?<activity>) (?<content>.*)",
-                "^(?<task>\\S*)\\/(?<activity>\\S*)(?<content>)",
-                "^(?<task>\\S*)(?<activity>)(?<content>)",
-            };
-
             user.TaskIdMap = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
             {
                 {TestTaskAlias, TestTaskId}

@@ -45,11 +45,11 @@ namespace Frodo
             var port = settings.Port;
 
             var hostUrl = string.Format($"http://{domain}:{port}/");
-            
-            var config = new HostConfiguration { 
+
+            var config = new HostConfiguration {
                 UnhandledExceptionCallback = e => _logger.Error(e, "Unhandled exception caught.")
             };
-            
+
             _host = new NancyHost(config, new Uri(hostUrl));
             _host.Start();
 
@@ -74,7 +74,7 @@ namespace Frodo
             var userRepository = _container.Resolve<IRepository<User>>();
             userRepository.DeleteAll();
             _container.Resolve<IUnitOfWork>().Commit();
-            
+
             userRepository.Save(newUser);
             _container.Resolve<IUnitOfWork>().Commit();
 
@@ -103,32 +103,39 @@ namespace Frodo
                 PasswordHash = "2B32548D3D46011CAEC455978738A30C",
                 Salt = "test_salt",
 
-                TaskPatterns = new List<string>
-                {
-                    "^(?<task>\\S*)(?<activity>) (?<content>.*)",
-                    "^(?<task>\\S*)\\/(?<activity>\\S*) (?<content>.*)",
-                    "^(?<task>\\S*)\\/(?<activity>\\S*)(?<content>)",
-                    "^(?<task>\\S*)(?<activity>)(?<content>)",
-                },
-
                 TaskIdMap = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
                 {
-                    {"MEET", "POL-23138"}, // Time spent on any meetings regarding this project. Daily, planning, retrospective, post-mortem, kick-off, demo. Or common project communications not specific task related. Comment is required!
-                    {"GMEET", "POL-31725"}, // Common product meetings (not project specific). Discuss things not your task/project related. Comment is required!
+                    {
+                        "MEET", "POL-23138"
+                    }, // Time spent on any meetings regarding this project. Daily, planning, retrospective, post-mortem, kick-off, demo. Or common project communications not specific task related. Comment is required!
+                    {
+                        "GMEET", "POL-31725"
+                    }, // Common product meetings (not project specific). Discuss things not your task/project related. Comment is required!
                     {"CMEET", "IN-59"}, // General company meeting, cross-project meetings, workshops
-                    {"TL_ACT", "POL-12114"}, // Processing emails, TPRs, unexpected request for some tasks analysis, resolving some problem etc. Comment is required!
+                    {
+                        "TL_ACT", "POL-12114"
+                    }, // Processing emails, TPRs, unexpected request for some tasks analysis, resolving some problem etc. Comment is required!
                     {"CR", "POL-12102"}, // Any time spent on Code Review (not on fixes).
                     {"OFFICE", "HR-4"},
                     {"OTH", "IN-2"}, // Comment for this task is required!
-                    {"WIKI", "POL-12100"}, // Time spent on updating wiki documentation in general, not related to specific task.
+                    {
+                        "WIKI", "POL-12100"
+                    }, // Time spent on updating wiki documentation in general, not related to specific task.
                     {"DEMO", "POL-12096"},
                     {"1B1", "IN-54"},
                     {"1T1", "IN-54"},
-                    {"PERF", "IN-6"}, {"PR", "IN-6"},
-                    {"PLAN", "POL-14306"}, // Time spent on prioritization / estimation / decomposition. Comment is required!
-                    {"EMERG", "POL-20874"}, // Time spent on fixing emergencies (out-of-hours). Real emergency managed by responsible PM.
+                    {"PERF", "IN-6"},
+                    {"PR", "IN-6"},
+                    {
+                        "PLAN", "POL-14306"
+                    }, // Time spent on prioritization / estimation / decomposition. Comment is required!
+                    {
+                        "EMERG", "POL-20874"
+                    }, // Time spent on fixing emergencies (out-of-hours). Real emergency managed by responsible PM.
                     {"NEWS", "POL-12101"}, // Time spent on reading emails on Product changes, etc.
-                    {"ENV", "IN-9"} // Setup environment from scratch / adding some tool for work (VS, SSRS etc), it is not related to specific project task and env preparation.
+                    {
+                        "ENV", "IN-9"
+                    } // Setup environment from scratch / adding some tool for work (VS, SSRS etc), it is not related to specific project task and env preparation.
                 },
 
                 ActivityMap = new Dictionary<string, Activity>
@@ -137,12 +144,30 @@ namespace Frodo
                     {"dev", Activity.Development},
                     {"tst", Activity.Testing},
                     {"cr", Activity.CodeReview},
+                    {"req", Activity.PM_Initiation_WorkWithRequirements},
+                    {"plan", Activity.PM_Initiation_ProjectPlanning}, {"pp", Activity.PM_Initiation_ProjectPlanning},
+                    {"daily", Activity.PM_Monitoring_DailyMeeting},
+                    {"upd", Activity.PM_Monitoring_StatusUpdate},
+                    {"com", Activity.PM_Monitoring_Communications},
+                    {"retro", Activity.PM_ClosingRetrospective},
+                    {"replan", Activity.PM_Unexpected_ProjectReplanning},
                 }
             };
 
-            foreach (var entry in userConfig.TaskIdMap)
+            if (userConfig.TaskIdMap != null)
             {
-                usr.TaskIdMap[entry.Key] = entry.Value;
+                foreach (var entry in userConfig.TaskIdMap)
+                {
+                    usr.TaskIdMap[entry.Key] = entry.Value;
+                }
+            }
+
+            if (userConfig.ActivityMap != null)
+            {
+                foreach (var entry in userConfig.ActivityMap)
+                {
+                    usr.ActivityMap[entry.Key] = entry.Value;
+                }
             }
 
             return usr;
@@ -185,6 +210,8 @@ namespace Frodo
             public string JiraAccountPassword { get; set; }
 
             public Dictionary<string, string> TaskIdMap { get; set; }
+
+            public Dictionary<string, Activity> ActivityMap { get; set; }
         }
     }
 }

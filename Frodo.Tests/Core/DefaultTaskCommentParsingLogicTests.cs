@@ -10,7 +10,7 @@ namespace Frodo.Tests.Core
     {
         private const string DefaultComment = "Default Task Comment";
 
-        private static object[] _parseLogicCases = new object[]
+        private static object[] _parseLogicCases =
         {
             new object[]
             {
@@ -39,6 +39,27 @@ namespace Frodo.Tests.Core
                 UserMock.TestTaskAlias,
                 Activity.Analysis,
                 DefaultComment
+            },
+            new object[]
+            {
+                $"{UserMock.TestTaskAlias}/{UserMock.AnalysisActivityAlias}=40h {DefaultComment}",
+                UserMock.TestTaskAlias,
+                Activity.Analysis,
+                DefaultComment
+            },
+            new object[]
+            {
+                $"{UserMock.TestTaskAlias}=40h {DefaultComment}",
+                UserMock.TestTaskAlias,
+                Activity.Other,
+                DefaultComment
+            },
+            new object[]
+            {
+                $"{UserMock.TestTaskAlias}=40h",
+                UserMock.TestTaskAlias,
+                Activity.Other,
+                string.Empty
             },
         };
 
