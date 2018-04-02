@@ -39,7 +39,7 @@ namespace Frodo
             var importState = _importStateRepository.FindSingle(x => x.UserId == user.Id) ?? new ImportState
             {
                 UserId = user.Id,
-                LastImportedDate = OffsetDateTime.FromDateTimeOffset(DateTimeOffset.Now.AddDays(-2)),
+                LastImportedDate = OffsetDateTime.FromDateTimeOffset(DateTimeOffset.Now.AddDays(-1)),
             };
 
             var start = importState.LastImportedDate;
