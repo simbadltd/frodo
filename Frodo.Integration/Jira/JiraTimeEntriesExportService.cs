@@ -85,6 +85,8 @@ namespace Frodo.Integration.Jira
                     return "Design%2FAnalysis";
                 case Activity.Testing:
                     return "Testing";
+                case Activity.CodeReview:
+                    return "Code%20Review";
                 case Activity.Other:
                     return "Other";
                 default:

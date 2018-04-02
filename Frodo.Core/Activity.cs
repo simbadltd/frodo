@@ -5,6 +5,7 @@
         Development,
         Analysis,
         Testing,
+        CodeReview,
         Other
     }
 }

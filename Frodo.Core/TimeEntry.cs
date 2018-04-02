@@ -36,5 +36,21 @@ namespace Frodo.Core
                 TaskId = user.TaskIdMap[TaskId];
             }
         }
+
+        public TimeEntry Clone()
+        {
+            return new TimeEntry
+            {
+                TaskId = TaskId,
+                UserId = UserId,
+                Start = Start,
+                End = End,
+                Duration = Duration,
+                Description = Description,
+                IsExported = IsExported,
+                ExternalUid = ExternalUid,
+                Activity = Activity,
+            };
+        }
     }
 }

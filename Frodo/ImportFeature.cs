@@ -50,20 +50,32 @@ namespace Frodo
 
             foreach (var timeEntry in result)
             {
-                var comment = _taskCommentParsingLogic.Extract(user, timeEntry.Description);
+                var tasks = _taskCommentParsingLogic.Extract(user, timeEntry.Description);
 
-                timeEntry.Description = comment.Content;
-                timeEntry.TaskId = comment.TaskId;
-                timeEntry.Activity = comment.Activity;
+                foreach (var task in tasks)
+                {
+                    var clone = timeEntry.Clone();
+                    clone.Description = task.Comment;
+                    clone.TaskId = task.TaskId;
+                    clone.Activity = task.Activity;
 
-                _logger.Debug($"Imported: {timeEntry.TaskId} {timeEntry.Activity} {timeEntry.Description}");
+                    _logger.Debug($"Imported: {clone.TaskId} {clone.Activity} {clone.Description}");
+
+                    var isTimeRedefinedByUser = task.RedefinedTime != null;
+                    if (isTimeRedefinedByUser)
+                    {
+                        clone.Duration = task.RedefinedTime.ApplyToDuration(clone.Duration);
+                        _logger.Debug(
+                            $"Time for {clone.TaskId} has been redefined by user. Original:<{timeEntry.Duration}>, Current:<{clone.Duration}>");
+                    }
+
+                    _timeEntryRepository.Save(clone);
+                }
 
                 if (timeEntry.End.ToInstant() > importState.LastImportedDate.ToInstant())
                 {
                     importState.LastImportedDate = timeEntry.End;
                 }
-
-                _timeEntryRepository.Save(timeEntry);
             }
 
             _importStateRepository.Save(importState);

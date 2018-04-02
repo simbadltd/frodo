@@ -1,10 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
+using Frodo.Common;
 using Frodo.Composition;
 using Frodo.Core;
 using Frodo.Core.Repositories;
 using Frodo.Infrastructure.Configuration;
 using Frodo.Infrastructure.Ioc;
+using Frodo.Infrastructure.Json;
 using Frodo.Infrastructure.Logging;
 using Nancy.Hosting.Self;
 
@@ -67,7 +70,7 @@ namespace Frodo
 
         private User SeedUser()
         {
-            var newUser = CreateUser();
+            var newUser = CreateUserFromConfig();
             var userRepository = _container.Resolve<IRepository<User>>();
             userRepository.DeleteAll();
             _container.Resolve<IUnitOfWork>().Commit();
@@ -78,17 +81,24 @@ namespace Frodo
             return newUser;
         }
 
-        private static User CreateUser()
+        private User CreateUserFromConfig()
         {
+            var userConfigFilePath = PathUtils.ToAbsolutePath("~\\eap_user.json");
+            if (File.Exists(userConfigFilePath) == false)
+            {
+                throw new FileNotFoundException($"Please, create user config file <{userConfigFilePath}>");
+            }
+
+            var jsonSerializer = _container.Resolve<IJsonSerializer>();
+            var userConfig = jsonSerializer.Deserialize<UserConfig>(File.ReadAllText(userConfigFilePath));
+
             var usr = new User
             {
                 Id = new Guid("1e865e7c-00ad-41e2-8627-1456276265f7"),
-
-                TogglApiToken = "",
-
-                JiraUserName = "",
-                Email = "",
-                JiraAccountPassword = "",
+                TogglApiToken = userConfig.TogglApiToken,
+                JiraUserName = userConfig.JiraUserName,
+                Email = userConfig.Email,
+                JiraAccountPassword = userConfig.JiraAccountPassword,
                 Login = "tst",
                 PasswordHash = "2B32548D3D46011CAEC455978738A30C",
                 Salt = "test_salt",
@@ -97,21 +107,28 @@ namespace Frodo
                 {
                     "^(?<task>\\S*)(?<activity>) (?<content>.*)",
                     "^(?<task>\\S*)\\/(?<activity>\\S*) (?<content>.*)",
+                    "^(?<task>\\S*)\\/(?<activity>\\S*)(?<content>)",
+                    "^(?<task>\\S*)(?<activity>)(?<content>)",
                 },
 
-                TaskIdMap = new Dictionary<string, string>
+                TaskIdMap = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
                 {
-                    {"MEET", "POL-23138"},
-                    {"TL_ACT", "POL-12114"},
-                    {"CR", "POL-12102"},
-                    {"HLP_TEAM", "POL-12110"},
+                    {"MEET", "POL-23138"}, // Time spent on any meetings regarding this project. Daily, planning, retrospective, post-mortem, kick-off, demo. Or common project communications not specific task related. Comment is required!
+                    {"GMEET", "POL-31725"}, // Common product meetings (not project specific). Discuss things not your task/project related. Comment is required!
+                    {"CMEET", "IN-59"}, // General company meeting, cross-project meetings, workshops
+                    {"TL_ACT", "POL-12114"}, // Processing emails, TPRs, unexpected request for some tasks analysis, resolving some problem etc. Comment is required!
+                    {"CR", "POL-12102"}, // Any time spent on Code Review (not on fixes).
                     {"OFFICE", "HR-4"},
-                    {"MGMNT", "POL-12109"},
-                    {"OTH", "IN-2"},
-                    {"WIKI", "POL-12100"},
+                    {"OTH", "IN-2"}, // Comment for this task is required!
+                    {"WIKI", "POL-12100"}, // Time spent on updating wiki documentation in general, not related to specific task.
                     {"DEMO", "POL-12096"},
                     {"1B1", "IN-54"},
-                    {"PERF", "IN-6"},
+                    {"1T1", "IN-54"},
+                    {"PERF", "IN-6"}, {"PR", "IN-6"},
+                    {"PLAN", "POL-14306"}, // Time spent on prioritization / estimation / decomposition. Comment is required!
+                    {"EMERG", "POL-20874"}, // Time spent on fixing emergencies (out-of-hours). Real emergency managed by responsible PM.
+                    {"NEWS", "POL-12101"}, // Time spent on reading emails on Product changes, etc.
+                    {"ENV", "IN-9"} // Setup environment from scratch / adding some tool for work (VS, SSRS etc), it is not related to specific project task and env preparation.
                 },
 
                 ActivityMap = new Dictionary<string, Activity>
@@ -119,8 +136,14 @@ namespace Frodo
                     {"anl", Activity.Analysis},
                     {"dev", Activity.Development},
                     {"tst", Activity.Testing},
+                    {"cr", Activity.CodeReview},
                 }
             };
+
+            foreach (var entry in userConfig.TaskIdMap)
+            {
+                usr.TaskIdMap[entry.Key] = entry.Value;
+            }
 
             return usr;
         }
@@ -149,6 +172,19 @@ namespace Frodo
         ~WindowsService()
         {
             Dispose(false);
+        }
+
+        private sealed class UserConfig
+        {
+            public string TogglApiToken { get; set; }
+
+            public string JiraUserName { get; set; }
+
+            public string Email { get; set; }
+
+            public string JiraAccountPassword { get; set; }
+
+            public Dictionary<string, string> TaskIdMap { get; set; }
         }
     }
 }

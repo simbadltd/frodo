@@ -1,7 +1,9 @@
-﻿namespace Frodo.Core
+﻿using System.Collections.Generic;
+
+namespace Frodo.Core
 {
     public interface ITaskCommentParsingLogic
     {
-        CommentExtractionResult Extract(User user, string input);
+        ICollection<CommentExtractionResult> Extract(User user, string input);
     }
 }
