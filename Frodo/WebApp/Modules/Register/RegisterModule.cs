@@ -17,23 +17,21 @@ namespace Frodo.WebApp.Modules.Register
             {
                 return View["Index"];
             };
-            
+
             Get["/{userId}/activate/{activationKey}"] = p =>
             {
                 string userId = p.userId.Value.ToString();
                 string activationKey = p.activationKey.Value.ToString();
-                
+
                 var activationResult = activateUserFeature.ActivateUser(userId.ToGuid(), activationKey);
 
                 if (activationResult.IsSuccessful)
                 {
                     return View["ActivationSuccess", activationResult];
                 }
-                else
-                {
-                    AddError("Membership", "Cannot activate user");
-                    return View["Index"];
-                }
+
+                AddError("Membership", "Cannot activate user");
+                return View["Index"];
             };
 
             Post["/"] = p =>

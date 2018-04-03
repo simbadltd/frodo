@@ -5,7 +5,7 @@ namespace Frodo.Infrastructure.Configuration
         public Settings()
         {
             Domain = "localhost";
-            Port = 8085;
+            Port = 8484;
             IsSysadminAccountEnabled = true;
             EmailSettings = new EmailSettings
             {
