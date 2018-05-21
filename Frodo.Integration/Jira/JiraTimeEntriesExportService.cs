@@ -25,8 +25,6 @@ namespace Frodo.Integration.Jira
 
         private TempoWorklog ToTempoWorklog(User user, TimeEntry timeEntry)
         {
-            if (timeEntry.TaskId == "MGMNT") timeEntry.TaskId = "POL-14306";
-
             var worklog = new TempoWorklog
             {
                 worklogAttributes = new List<TempoWorklogAttribute>(),
