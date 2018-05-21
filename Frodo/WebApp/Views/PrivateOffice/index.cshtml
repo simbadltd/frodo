@@ -4,14 +4,44 @@
     ViewBag.Title = "Home Page";
 }
 
-<table>
-    <tr>
-        <td>Id:</td>
-        <td>@Model.Id</td>
-    </tr>
-    <tr>
-        <td>Login:</td>
-        <td>@Model.Login</td>
-    </tr>
+<div class="panel panel-default">
+    <div class="panel-heading">General Settings</div>
+    <div class="panel-body">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label for="login" class="col-sm-2 control-label">Login</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="login" value="@Model.Login">
+                </div>
+            </div>
 
-</table>
+            <div class="form-group">
+                <label for="email" class="col-sm-2 control-label">Email</label>
+                <div class="col-sm-10">
+                    <input type="email" class="form-control" id="email" value="@Model.Email">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">Jira Integration Settings</div>
+    <div class="panel-body">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label for="jirausername" class="col-sm-2 control-label">User name</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="jirausername" value="@Model.JiraUserName">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="jirapassword" class="col-sm-2 control-label">Password</label>
+                <div class="col-sm-10">
+                    <input type="password" class="form-control" id="jirapassword" value="@Model.JiraAccountPassword">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

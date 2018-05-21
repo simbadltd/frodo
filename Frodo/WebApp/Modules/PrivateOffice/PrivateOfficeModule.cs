@@ -13,7 +13,9 @@ namespace Frodo.WebApp.Modules.PrivateOffice
             Get["/"] = p =>
             {
                 this.RequiresAuthentication();
-                return View["Index", userRepository.GetAll().FirstOrDefault()];
+                var user = userRepository.FindByLogin(Context.CurrentUser.UserName);
+
+                return View["Index", user];
             };
         }
     }
