@@ -1,0 +1,22 @@
+@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<Frodo.WebApp.Modules.PrivateOffice.PrivateOfficeModule.ImportModel>
+@{
+    Layout = "WebApp/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Private Office: Import state";
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">Last Import</div>
+    <div class="panel-body">
+        <form class="form-horizontal" action="~/privateOffice/import" method="post">
+            <div class="form-group">
+                <label for="LastImportedDate" class="col-sm-2 control-label">Last import date</label>
+                <div class="col-sm-3">
+                    <input type="text" class="form-control" id="LastImportedDate" name="LastImportedDate" value="@Model.LastImportedDate">
+                </div>
+                <div class="col-sm-1">
+                    <input type="submit" class="btn btn-success" value="Update">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

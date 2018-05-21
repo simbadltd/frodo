@@ -9,11 +9,11 @@ namespace Frodo.WebApp.Authentication
 {
     public sealed class AuthenticationService : IAuthenticationService
     {
-        private static readonly User _systemUser = new User
+        private static readonly User SystemUser = new User
         {
             Id = new Guid("69bcefa5-3b11-4fbe-a3e7-fdfac4b00234"),
             Login = "sa",
-            PasswordHash = "123", // todo[kk]: replace with passwordhash
+            PasswordHash = "202CB962AC59075B964B07152D234B70",
             Salt = string.Empty,
         };
 
@@ -64,9 +64,9 @@ namespace Frodo.WebApp.Authentication
 
         private User FindUserByLogin(string login)
         {
-            if (_isSystemUserEnabled && string.Equals(login, _systemUser.Login, StringComparison.OrdinalIgnoreCase))
+            if (_isSystemUserEnabled && string.Equals(login, SystemUser.Login, StringComparison.OrdinalIgnoreCase))
             {
-                return _systemUser;
+                return SystemUser;
             }
 
             return _userRepository.FindByLogin(login);

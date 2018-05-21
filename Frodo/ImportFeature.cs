@@ -36,11 +36,7 @@ namespace Frodo
         {
             _logger.Info("Import started");
 
-            var importState = _importStateRepository.FindSingle(x => x.UserId == user.Id) ?? new ImportState
-            {
-                UserId = user.Id,
-                LastImportedDate = OffsetDateTime.FromDateTimeOffset(DateTimeOffset.Now.AddDays(-1)),
-            };
+            var importState = _importStateRepository.GetOrCreate(user);
 
             var start = importState.LastImportedDate;
             var end = OffsetDateTime.FromDateTimeOffset(DateTimeOffset.Now);

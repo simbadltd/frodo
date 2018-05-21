@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using NodaTime;
 
 namespace Frodo.Core.Repositories
 {
@@ -18,6 +19,15 @@ namespace Frodo.Core.Repositories
         public static ICollection<TimeEntry> NotExported(this IRepository<TimeEntry> repository, User user)
         {
             return repository.FindAll(x => x.UserId == user.Id && x.IsExported == false);
+        }
+
+        public static ImportState GetOrCreate(this IRepository<ImportState> repository, User user)
+        {
+            return repository.FindSingle(x => x.UserId == user.Id) ?? new ImportState
+            {
+                UserId = user.Id,
+                LastImportedDate = OffsetDateTime.FromDateTimeOffset(DateTimeOffset.Now.AddDays(-1)),
+            };
         }
     }
 }
