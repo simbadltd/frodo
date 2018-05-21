@@ -50,14 +50,14 @@ namespace Frodo
                 UnhandledExceptionCallback = e => _logger.Error(e, "Unhandled exception caught.")
             };
 
+            AppDomain.CurrentDomain.UnhandledException +=
+                (sender, e) => _logger.Error(e.ExceptionObject as Exception, "Unhandled exception caught.");
+
             _host = new NancyHost(config, new Uri(hostUrl));
             _host.Start();
 
             _logger.Info("Application started");
             _logger.Info(hostUrl);
-
-            AppDomain.CurrentDomain.UnhandledException +=
-                (sender, e) => _logger.Error(e.ExceptionObject as Exception, "Unhandled exception caught.");
 
             var user = SeedUser();
 
