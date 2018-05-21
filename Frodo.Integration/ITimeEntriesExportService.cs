@@ -6,6 +6,6 @@ namespace Frodo.Integration
 {
     public interface ITimeEntriesExportService
     {
-        bool Export(User user, TimeEntry timeEntry);
+        void Export(User user, TimeEntry timeEntry);
     }
 }

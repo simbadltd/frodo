@@ -1,4 +1,5 @@
-﻿using Frodo.Core;
+﻿using System;
+using Frodo.Core;
 using Frodo.Core.Repositories;
 using Frodo.Infrastructure.Logging;
 using Frodo.Integration;
@@ -30,27 +31,42 @@ namespace Frodo
             var entriesToExport = _timeEntryRepository.NotExported(user);
             _logger.Info($"{entriesToExport.Count} time entries to export");
 
+            var successful = 0;
+            var failed = 0;
+
             foreach (var timeEntry in entriesToExport)
             {
-                timeEntry.MapTaskId(user);
-                var isSuccessful = _timeEntriesExportService.Export(user, timeEntry);
-
-                if (isSuccessful)
+                if (timeEntry.IsExported)
                 {
+                    continue;
+                }
+
+                try
+                {
+                    timeEntry.MapTaskId(user);
+
+                    _timeEntriesExportService.Export(user, timeEntry);
                     timeEntry.IsExported = true;
                     _timeEntryRepository.Save(timeEntry);
                     _unitOfWork.Commit();
 
-                    _logger.Debug(
-                        $"Export: {timeEntry.TaskId} {timeEntry.Activity} {timeEntry.Description} successful");
+                    _logger.Info(
+                        $"{timeEntry.TaskId} [{timeEntry.Activity}]: {timeEntry.Description} ({timeEntry.Duration}) - OK");
+
+                    successful++;
                 }
-                else
+                catch (Exception e)
                 {
-                    _logger.Error($"Export: {timeEntry.TaskId} {timeEntry.Activity} {timeEntry.Description} failed");
+                    _logger.Info(
+                        $"{timeEntry.TaskId} [{timeEntry.Activity}]: {timeEntry.Description} ({timeEntry.Duration}) - Fail");
+                    _logger.Error(e,
+                        $"Error while exporting {timeEntry.TaskId} [{timeEntry.Activity}]: {timeEntry.Description} ({timeEntry.Duration})");
+
+                    failed++;
                 }
             }
 
-            _logger.Info("Export finished");
+            _logger.Info($"Export finished [OK: {successful}; Failed:{failed}].");
         }
     }
 }

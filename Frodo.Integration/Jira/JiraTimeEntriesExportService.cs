@@ -9,27 +9,24 @@ namespace Frodo.Integration.Jira
 {
     public sealed class JiraTimeEntriesExportService : ITimeEntriesExportService
     {
-        public bool Export(User user, TimeEntry timeEntry)
+        public void Export(User user, TimeEntry timeEntry)
         {
             var client = Client(user);
-
-            if (timeEntry.IsExported)
-            {
-                throw new InvalidOperationException("Cannot export already exported time entry");
-            }
 
             if (Math.Abs(timeEntry.Duration.TotalSeconds) < 0.001)
             {
                 // [kk] Zero time entries should not be logged
-                return true;
+                return;
             }
 
             var worklog = ToTempoWorklog(user, timeEntry);
-            return client.AddTempoWorklog(worklog);
+            client.AddTempoWorklog(worklog);
         }
 
         private TempoWorklog ToTempoWorklog(User user, TimeEntry timeEntry)
         {
+            if (timeEntry.TaskId == "MGMNT") timeEntry.TaskId = "POL-14306";
+
             var worklog = new TempoWorklog
             {
                 worklogAttributes = new List<TempoWorklogAttribute>(),
