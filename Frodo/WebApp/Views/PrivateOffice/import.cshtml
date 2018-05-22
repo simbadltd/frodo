@@ -1,4 +1,4 @@
-@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<Frodo.WebApp.Modules.PrivateOffice.PrivateOfficeModule.ImportModel>
+@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<Frodo.WebApp.Modules.PrivateOffice.PrivateOfficeModule.ImportViewReadState>
 @{
     Layout = "WebApp/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "Private Office: Import state";
@@ -18,5 +18,28 @@
                 </div>
             </div>
         </form>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">Pending time entries</div>
+    <div class="panel-body">
+        <table class="table table-condensed">
+            <tr>
+                <th>Id</th>
+                <th>Duration</th>
+                <th>Activity</th>
+                <th>Description</th>
+            </tr>
+            @foreach (var timeEntry in @Model.TimeEntries)
+            {
+                <tr>
+                    <td>@timeEntry.TaskId</td>
+                    <td>@timeEntry.Duration</td>
+                    <td>@timeEntry.Activity</td>
+                    <td>@timeEntry.Description</td>
+                </tr>
+            }
+        </table>
     </div>
 </div>

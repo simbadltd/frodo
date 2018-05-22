@@ -103,6 +103,7 @@
     <Compile Include="WebApp\Authentication\PasswordCheckService.cs" />
     <Compile Include="WebApp\Bootstrapper.cs" />
     <Compile Include="WebApp\IocContainerNancyBootstrapper.cs" />
+    <Compile Include="WebApp\Models\TimeEntryDto.cs" />
     <Compile Include="WebApp\Modules\HomeModule.cs" />
     <Compile Include="WebApp\Modules\Login\LoginAttempt.cs" />
     <Compile Include="WebApp\Modules\Login\LoginAttemptValidator.cs" />

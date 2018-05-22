@@ -64,8 +64,8 @@ namespace Frodo
             var importFeature = _container.Resolve<IImportFeature>();
             importFeature.Execute(user);
 
-            var exportFeature = _container.Resolve<IExportFeature>();
-            exportFeature.Execute(user);
+            /*var exportFeature = _container.Resolve<IExportFeature>();
+            exportFeature.Execute(user);*/
         }
 
         private User SeedUser()
