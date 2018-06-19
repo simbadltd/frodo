@@ -18,6 +18,8 @@ namespace Frodo.Core
         public string JiraUserName { get; set; }
 
         public string JiraAccountPassword { get; set; }
+
+        public string TempoApiToken { get; set; }
         
         public bool IsActive { get; set; }
         
@@ -31,8 +33,8 @@ namespace Frodo.Core
         {
             PasswordHash = CalculatePasswordHash(passwordRaw);
         }
-        
-        public string CalculatePasswordHash(string passwordRaw)
+
+        private string CalculatePasswordHash(string passwordRaw)
         {
             return string.Concat(Salt, passwordRaw).Md5();
         }

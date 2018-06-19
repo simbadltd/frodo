@@ -23,5 +23,10 @@ namespace Frodo.Integration.Jira
         /// Jira server password
         /// </summary>
         public string Password { get; set; }
+
+        /// <summary>
+        /// Tempo API authentication token
+        /// </summary>
+        public string TempoApiToken { get; set; }
     }
 }

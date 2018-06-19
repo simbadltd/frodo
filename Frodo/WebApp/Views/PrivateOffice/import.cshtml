@@ -7,14 +7,10 @@
 <div class="panel panel-default">
     <div class="panel-heading">Last Import</div>
     <div class="panel-body">
-        <form class="form-horizontal" action="~/privateOffice/import" method="post">
+        <form class="form-horizontal" action="~/privateOffice/exportall" method="get">
             <div class="form-group">
-                <label for="LastImportedDate" class="col-sm-2 control-label">Last import date</label>
-                <div class="col-sm-3">
-                    <input type="text" class="form-control" id="LastImportedDate" name="LastImportedDate" value="@Model.LastImportedDate">
-                </div>
                 <div class="col-sm-1">
-                    <input type="submit" class="btn btn-success" value="Update">
+                    <input type="submit" class="btn btn-success" value="Export all pending time entries">
                 </div>
             </div>
         </form>
@@ -26,7 +22,8 @@
     <div class="panel-body">
         <table class="table table-condensed">
             <tr>
-                <th>Id</th>
+                <th>Date/Time</th>
+                <th>Task</th>
                 <th>Duration</th>
                 <th>Activity</th>
                 <th>Description</th>
@@ -34,6 +31,7 @@
             @foreach (var timeEntry in @Model.TimeEntries)
             {
                 <tr>
+                    <td>@timeEntry.Start</td>
                     <td>@timeEntry.TaskId</td>
                     <td>@timeEntry.Duration</td>
                     <td>@timeEntry.Activity</td>
@@ -41,5 +39,22 @@
                 </tr>
             }
         </table>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">Advanced import settings</div>
+    <div class="panel-body">
+        <form class="form-horizontal" action="~/privateOffice/import" method="post">
+            <div class="form-group">
+                <label for="LastImportedDate" class="col-sm-2 control-label">Last import date</label>
+                <div class="col-sm-3">
+                    <input type="text" class="form-control" id="LastImportedDate" name="LastImportedDate" value="@Model.LastImportedDate">
+                </div>
+                <div class="col-sm-1">
+                    <input type="submit" class="btn btn-success" value="Update">
+                </div>
+            </div>
+        </form>
     </div>
 </div>

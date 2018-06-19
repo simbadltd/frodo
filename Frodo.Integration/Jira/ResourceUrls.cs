@@ -8,7 +8,7 @@ namespace Frodo.Integration.Jira
 
         public static string TempoWorklog()
         {
-            return "/rest/tempo-timesheets/3/worklogs/";
+            return "/rest-legacy/tempo-timesheets/3/worklogs";
         }
 
         public static string IssueByKey(string issueKey)

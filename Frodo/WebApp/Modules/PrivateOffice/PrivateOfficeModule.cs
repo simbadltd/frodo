@@ -19,15 +19,17 @@ namespace Frodo.WebApp.Modules.PrivateOffice
         private readonly IRepository<User> _userRepository;
         private readonly IRepository<ImportState> _importStateRepository;
         private readonly IRepository<TimeEntry> _timeEntryRepository;
+        private readonly IExportFeature _exportFeature;
         private readonly IUnitOfWork _unitOfWork;
 
         public PrivateOfficeModule(IRepository<User> userRepository, IRepository<ImportState> importStateRepository,
-            IRepository<TimeEntry> timeEntryRepository, IUnitOfWork unitOfWork) : base("/privateOffice")
+            IRepository<TimeEntry> timeEntryRepository, IUnitOfWork unitOfWork, IExportFeature exportFeature) : base("/privateOffice")
         {
             _userRepository = userRepository;
             _importStateRepository = importStateRepository;
             _timeEntryRepository = timeEntryRepository;
             _unitOfWork = unitOfWork;
+            _exportFeature = exportFeature;
 
             this.RequiresAuthentication();
 
@@ -38,10 +40,18 @@ namespace Frodo.WebApp.Modules.PrivateOffice
             };
 
             Get["/import"] = p => BuildView();
+
             Post["/import"] = p =>
             {
                 var model = this.Bind<ImportViewWriteState>();
                 UpdateImportState(model);
+                return BuildView();
+            };
+
+            Get["/exportall"] = p =>
+            {
+                var user = userRepository.FindByLogin(Context.CurrentUser.UserName);
+                _exportFeature.Execute(user);
                 return BuildView();
             };
         }
@@ -55,7 +65,7 @@ namespace Frodo.WebApp.Modules.PrivateOffice
             var model = new ImportViewReadState
             {
                 LastImportedDate = importState.LastImportedDate.ToIso8601String(),
-                TimeEntries = timeEntries.Select(TimeEntryDto.From).ToList()
+                TimeEntries = timeEntries.Select(TimeEntryDto.From).OrderBy(x => x.Start).ToList()
             };
 
             return View["Import", model];

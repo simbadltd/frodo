@@ -20,7 +20,10 @@ namespace Frodo.Integration.Jira
             }
 
             var worklog = ToTempoWorklog(user, timeEntry);
-            client.AddTempoWorklog(worklog);
+            if (!client.AddTempoWorklog(worklog))
+            {
+                throw new InvalidOperationException("Cannot add worklog due to Tempo api problems");
+            }
         }
 
         private TempoWorklog ToTempoWorklog(User user, TimeEntry timeEntry)
@@ -133,9 +136,10 @@ namespace Frodo.Integration.Jira
         {
             var client = new JiraClient(new JiraAccount
             {
-                ServerUrl = "https://oneinc.atlassian.net/", // todo[kk]: move to settings
+                ServerUrl = "https://api.tempo.io/", // todo[kk]: move to settings
                 User = user.Email,
                 Password = user.JiraAccountPassword,
+                TempoApiToken = user.TempoApiToken
             });
 
             return client;

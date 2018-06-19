@@ -1,4 +1,5 @@
 ﻿using System;
+using Frodo.Common;
 using Frodo.Core;
 using NodaTime;
 
@@ -7,6 +8,8 @@ namespace Frodo.WebApp.Models
     public sealed class TimeEntryDto
     {
         public string TaskId { get; set; }
+
+        public string Start { get; set; }
 
         public string Duration { get; set; }
 
@@ -19,6 +22,7 @@ namespace Frodo.WebApp.Models
             return new TimeEntryDto
             {
                 TaskId = entity.TaskId,
+                Start = entity.Start.ToIso8601String(),
                 Activity = entity.Activity.ToString(),
                 Description = entity.Description,
                 Duration = Duration2String(entity.Duration)
