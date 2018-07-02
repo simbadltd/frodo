@@ -23,6 +23,8 @@ namespace Frodo.Persistence.Mapping
         
         public string JiraAccountPassword { get; set; }
 
+        public string TempoApiToken { get; set; }
+
         public Dictionary<string, string> TaskIdMap { get; set; }
         
         public Dictionary<string, Activity> ActivityMap { get; set; }

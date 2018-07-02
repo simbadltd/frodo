@@ -106,6 +106,24 @@ namespace Frodo.Tests.Core
         }
 
         [Test]
+        public void ShouldParseSingleCommentForMultipleTasks()
+        {
+            // Act
+            var result = _target.Extract(_user, "TEST1;TEST2;TEST3 Comment").ToArray();
+
+            // Assert
+            Assert.That(result.Length == 3);
+
+            Assert.AreEqual(result[0].TaskId, "TEST1");
+            Assert.AreEqual(result[1].TaskId, "TEST2");
+            Assert.AreEqual(result[2].TaskId, "TEST3");
+
+            Assert.AreEqual(result[0].Comment, "Comment");
+            Assert.AreEqual(result[1].Comment, "Comment");
+            Assert.AreEqual(result[2].Comment, "Comment");
+        }
+
+        [Test]
         [TestCase("TASK1=60m", TaskTimeType.Minutes, 60D)]
         [TestCase("TASK1=60m Comment", TaskTimeType.Minutes, 60D)]
         [TestCase("TASK3=1h", TaskTimeType.Minutes, 60D)]

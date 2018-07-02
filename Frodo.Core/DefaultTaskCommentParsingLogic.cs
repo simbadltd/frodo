@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Runtime.Serialization.Formatters;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -61,6 +62,8 @@ namespace Frodo.Core
 
                 result.Add(entry);
             }
+
+            FillCommonCommentIfNeeded(result);
 
             return result;
         }
@@ -123,6 +126,22 @@ namespace Frodo.Core
             if (user.ActivityMap == null) return Activity.Other;
 
             return user.ActivityMap.ContainsKey(rawActivity) ? user.ActivityMap[rawActivity] : Activity.Other;
+        }
+
+        private static void FillCommonCommentIfNeeded(List<CommentExtractionResult> result)
+        {
+            var lastRecord = result.LastOrDefault();
+            if (lastRecord == null) return;
+
+            // [kk] Common comment should be comment of the last record
+            // e.g.: TEST1;TEST2;TEST3 Common_Comment
+            var commonComment = lastRecord.Comment;
+            foreach (var record in result)
+            {
+                if (string.IsNullOrEmpty(record.Comment) == false) continue;
+
+                record.Comment = commonComment;
+            }
         }
     }
 }
